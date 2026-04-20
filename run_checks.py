@@ -353,6 +353,19 @@ def main():
             Path(config_path).unlink(missing_ok=True)
         cleanup_downloads(cleanup_list)
         sys.exit(1)
+    except urllib.error.URLError as e:
+        print(
+            f"Network error: {e.reason}",
+            file=sys.stderr,
+        )
+        print(
+            "Could not reach GitHub. Please check your internet connection and try again.",
+            file=sys.stderr,
+        )
+        if config_is_temp and config_path:
+            Path(config_path).unlink(missing_ok=True)
+        cleanup_downloads(cleanup_list)
+        sys.exit(1)
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
         if config_is_temp and config_path:
