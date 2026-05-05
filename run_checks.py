@@ -434,7 +434,8 @@ def main():
     finally:
         if config_is_temp and config_path:
             Path(config_path).unlink(missing_ok=True)
-        cleanup_downloads(cleanup_list)
+        if cleanup_list:
+            cleanup_downloads(cleanup_list)
 
 
 if __name__ == "__main__":
